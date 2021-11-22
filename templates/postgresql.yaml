@@ -55,7 +55,7 @@ spec:
           memory: 100Mi
       env:
         - name: "DATA_SOURCE_URI"
-          value: "{{ template "concourse.postgresql.fullname" . }}?sslmode=disable"
+          value: "localhost:5432?sslmode=disable"
         - name: "DATA_SOURCE_USER"
           valueFrom:
             secretKeyRef:
