@@ -55,7 +55,7 @@ spec:
           memory: 100Mi
       env:
         - name: "DATA_SOURCE_URI"
-          value: "localhost:5432?sslmode=disable"
+          value: {{ .Values.concourse.web.postgres.db_exporter | default "localhost:5432?sslmode=disable" | quote }}
         - name: "DATA_SOURCE_USER"
           valueFrom:
             secretKeyRef:

@@ -350,6 +350,8 @@ concourse:
         enabled: false
         volumeSize: 50Gi
         storageClass: default
+        # default db-exporter
+        # db_exporter: "localhost:5432?sslmode=disable"
         # Postgresql service monitor (optional, default: true)
         serviceMonitor:
           enabled: true
