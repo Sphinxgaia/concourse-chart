@@ -112,12 +112,12 @@ Return the appropriate apiVersion for ingress.
 */}}
 {{- define "concourse.ingress.apiVersion" -}}
 {{- $version := include "concourse.kubeVersion" . -}}
-{{- if semverCompare "<1.14-0" $version }}
-{{- print "apiVersion: extensions/v1beta1" -}}
-{{- else if semverCompare "<1.19-0" $version}}
-{{- print "apiVersion: networking.k8s.io/v1beta1" -}}
-{{- else }}
-{{- print "apiVersion: networking.k8s.io/v1" -}}
+{{- if semverCompare "<1.14-0" $version -}}
+{{- print "extensions/v1beta1" -}}
+{{- else if semverCompare "<1.19-0" $version -}}
+{{- print "networking.k8s.io/v1beta1" -}}
+{{- else -}}
+{{- print "networking.k8s.io/v1" -}}
 {{- end }}
 {{- end }}
 

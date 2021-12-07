@@ -18,13 +18,26 @@ metadata:
     {{- end }}
 spec:
   rules:
+  
     {{- range .Values.web.ingress.hosts }}
     - host: {{ . }}
       http:
         paths:
-          - backend:
-              serviceName: {{ printf "%s-%s" $releaseName $serviceName | trunc 63 | trimSuffix "-" }}
-              servicePort: {{ $servicePort }}
+        {{- if semverCompare "<1.19-0" .Capabilities.KubeVersion.GitVersion }}
+        - backend:
+            serviceName: {{ printf "%s-%s" $releaseName $serviceName | trunc 63 | trimSuffix "-" }}
+            servicePort: {{ printf "%s-%s" $releaseName $serviceName | trunc 63 | trimSuffix "-" }}
+          path: /
+        {{- else }}
+
+        - backend:
+            service:
+              name: {{ printf "%s-%s" $releaseName $serviceName | trunc 63 | trimSuffix "-" }}
+              port:
+                number: {{ printf "%s-%s" $releaseName $serviceName | trunc 63 | trimSuffix "-" }}
+          pathType: Prefix
+          path: /
+        {{- end }}
     {{- end -}}
   {{- if .Values.web.ingress.tls }}
   tls:
