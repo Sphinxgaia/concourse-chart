@@ -3,6 +3,7 @@
 {{- $releaseName := .Release.Name -}}
 {{- $serviceName := default "web" .Values.web.nameOverride -}}
 {{- $servicePort := .Values.concourse.web.bindPort -}}
+{{- $version := include "concourse.kubeVersion" . -}}
 apiVersion: {{ template "concourse.ingress.apiVersion" . }}
 kind: Ingress
 metadata:
@@ -23,7 +24,7 @@ spec:
     - host: {{ . }}
       http:
         paths:
-        {{- if semverCompare "<1.19-0" .Capabilities.KubeVersion.GitVersion }}
+        {{- if semverCompare "<1.19-0" $version }}
         - backend:
             serviceName: {{ printf "%s-%s" $releaseName $serviceName | trunc 63 | trimSuffix "-" }}
             servicePort: {{ printf "%s-%s" $releaseName $serviceName | trunc 63 | trimSuffix "-" }}
