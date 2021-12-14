@@ -27,7 +27,7 @@ spec:
         {{- if semverCompare "<1.19-0" $version }}
         - backend:
             serviceName: {{ printf "%s-%s" $releaseName $serviceName | trunc 63 | trimSuffix "-" }}
-            servicePort: {{ printf "%s-%s" $releaseName $serviceName | trunc 63 | trimSuffix "-" }}
+            servicePort: {{ $servicePort }}
           path: /
         {{- else }}
 
@@ -35,7 +35,7 @@ spec:
             service:
               name: {{ printf "%s-%s" $releaseName $serviceName | trunc 63 | trimSuffix "-" }}
               port:
-                number: {{ printf "%s-%s" $releaseName $serviceName | trunc 63 | trimSuffix "-" }}
+                number: {{ $servicePort }}
           pathType: Prefix
           path: /
         {{- end }}
